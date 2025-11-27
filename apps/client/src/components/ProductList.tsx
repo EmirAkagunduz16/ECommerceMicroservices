@@ -1,4 +1,4 @@
-import { ProductsType } from "@/types";
+import { ProductsType } from "@repo/types";
 import React from "react";
 import Categories from "./Categories";
 import ProductCard from "./ProductCard";
@@ -23,6 +23,9 @@ const products: ProductsType = [
       purple: "/products/1p.png",
       green: "/products/1gr.png",
     },
+    categorySlug: "test",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 2,
@@ -35,6 +38,9 @@ const products: ProductsType = [
     sizes: ["s", "m", "l", "xl"],
     colors: ["gray", "green"],
     images: { gray: "/products/2g.png", green: "/products/2gr.png" },
+    categorySlug: "test",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 3,
@@ -51,6 +57,9 @@ const products: ProductsType = [
       blue: "/products/3b.png",
       black: "/products/3bl.png",
     },
+    categorySlug: "test",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 4,
@@ -63,6 +72,9 @@ const products: ProductsType = [
     sizes: ["s", "m", "l"],
     colors: ["white", "pink"],
     images: { white: "/products/4w.png", pink: "/products/4p.png" },
+    categorySlug: "test",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 5,
@@ -79,6 +91,9 @@ const products: ProductsType = [
       orange: "/products/5o.png",
       black: "/products/5bl.png",
     },
+    categorySlug: "test",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 6,
@@ -91,6 +106,9 @@ const products: ProductsType = [
     sizes: ["40", "42", "43", "44"],
     colors: ["gray", "white"],
     images: { gray: "/products/6g.png", white: "/products/6w.png" },
+    categorySlug: "test",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 7,
@@ -103,6 +121,9 @@ const products: ProductsType = [
     sizes: ["40", "42", "43"],
     colors: ["gray", "pink"],
     images: { gray: "/products/7g.png", pink: "/products/7p.png" },
+    categorySlug: "test",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 8,
@@ -115,6 +136,9 @@ const products: ProductsType = [
     sizes: ["s", "m", "l"],
     colors: ["blue", "green"],
     images: { blue: "/products/8b.png", green: "/products/8gr.png" },
+    categorySlug: "test",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
 ];
 

@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { ShoppingCart } from "lucide-react";
 import useCartStore from "@/stores/cartStore";
-import { CartItemType } from "@/types";
+import { CartItemType } from "@repo/types";
 
 const ShoppingCartIcon = () => {
   const { cart, hasHydrated } = useCartStore();
