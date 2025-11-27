@@ -4,6 +4,14 @@ import React from "react";
 import SearchBar from "./SearchBar";
 import { Bell, Home, User } from "lucide-react";
 import ShoppingCartIcon from "./ShoppingCartIcon";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
+import ProfileButton from "./ProfileButton";
 
 const Navbar = () => {
   return (
@@ -22,16 +30,21 @@ const Navbar = () => {
         </p>
       </Link>
       {/* Right Side */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-4">
         <SearchBar />
         <Link href="/">
           <Home className="w-4 h-4 text-gray-600" />
         </Link>
         <Bell className="w-4 h-4 text-gray-600" />
         <ShoppingCartIcon />
-        <Link href={"/login"}>
-          <User className="w-4 h-4 text-gray-600" />
-        </Link>
+        <div className="">
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <ProfileButton />
+          </SignedIn>
+        </div>
       </div>
     </nav>
   );
