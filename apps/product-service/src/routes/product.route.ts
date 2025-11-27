@@ -15,8 +15,4 @@ router.delete("/:id", deleteProduct);
 router.get("/:id", getProduct);
 router.get("/", getProducts);
 
-router.get("/test", (req, res) => {
-  res.json({ message: "Hello World" });
-});
-
 export default router;
