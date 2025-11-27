@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "pnpm dlx tsx --env-file=.env --watch src/index.ts",
+    "dev": "pnpm dlx tsx --env-file=.env --env-file=../../packages/product-db/.env --watch src/index.ts",
     "check-types": "tsc --noEmit"
   },
   "keywords": [],
@@ -14,7 +14,8 @@
   "dependencies": {
     "@clerk/express": "^1.7.53",
     "cors": "^2.8.5",
-    "express": "^5.0.3"
+    "express": "^5.0.3",
+    "@repo/product-db": "workspace:*"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",

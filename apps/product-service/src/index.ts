@@ -1,6 +1,9 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { clerkMiddleware, getAuth } from "@clerk/express";
+import { shouldBeUser } from "./middleware/authMiddleware.js";
+import productRouter from "./routes/product.route";
+import categoryRouter from "./routes/category.route";
 
 const app = express();
 app.use(
@@ -9,7 +12,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(express.json());
 app.use(clerkMiddleware());
 
 app.get("/health", (req: Request, res: Response) => {
@@ -20,11 +23,18 @@ app.get("/health", (req: Request, res: Response) => {
   });
 });
 
-app.get("/test", (req, res) => {
-  const auth = getAuth(req);
-  console.log(auth);
-  
-  res.json({ message: "Product server is authenticated" });
+app.get("/test", shouldBeUser, (req, res) => {
+  res.json({ message: "Product server is authenticated", userId: req.userId });
+});
+
+app.use("/products", productRouter);
+app.use("/categories", categoryRouter);
+
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.log(err);
+  return res
+    .status(err.status || 500)
+    .json({ message: err.message || "Internal server error" });
 });
 
 app.listen(8000, () => {
