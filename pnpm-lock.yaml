@@ -246,6 +246,9 @@ importers:
         specifier: ^20.0.0
         version: 20.0.0(@types/node@20.19.25)
     devDependencies:
+      '@repo/product-db':
+        specifier: workspace:*
+        version: link:../../packages/product-db
       '@repo/types':
         specifier: workspace:*
         version: link:../../packages/types
