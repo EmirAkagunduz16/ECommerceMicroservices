@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import Stripe from "stripe";
 import stripe from "../utils/stripe";
+import { producer } from "../utils/kafka";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
@@ -14,20 +15,30 @@ webhookroute.post("/stripe", async (c) => {
   try {
     event = stripe.webhooks.constructEvent(body, sig!, webhookSecret!);
   } catch (error) {
-    console.log("Webhook verification failed", error);
     return c.json({ error: "Webhook verification failed" }, 400);
   }
 
   switch (event.type) {
     case "checkout.session.completed":
       const session = event.data.object as Stripe.Checkout.Session;
-      console.log("Checkout session completed", session);
       const lineItems = await stripe.checkout.sessions.listLineItems(
         session.id
       );
 
       //  TODO: create order
-      console.log("WEBHOOK RECEIVED", session);
+      await producer.sendMessage("payment.successful", {
+        value: {
+          userId: session.client_reference_id,
+          email: session.customer_details?.email,
+          amount: session.amount_total,
+          status: session.payment_status === "paid" ? "success" : "failed",
+          product: lineItems.data.map((item) => ({
+            name: item.description,
+            quantity: item.quantity,
+            price: item.price?.unit_amount,
+          })),
+        },
+      });
       break;
     default:
       console.log("Unhandled event type", event.type);

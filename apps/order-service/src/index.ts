@@ -4,6 +4,7 @@ import { shouldBeUser } from "./middleware/authMiddleware.js";
 import { connectOrderDB } from "@repo/order-db";
 import { orderRouter } from "./routes/orders.js";
 import { consumer, producer } from "./utils/kafka.js";
+import { runKafkaSubscriptions } from "./utils/subscriptions.js";
 
 const fastify = Fastify();
 
@@ -33,6 +34,7 @@ const start = async () => {
       await producer.connect(),
       await consumer.connect(),
     ]);
+    await runKafkaSubscriptions();
     await fastify.listen({ port: 8001 });
     fastify.log.info(`Order service is running on ${fastify.server.address()}`);
   } catch (err) {
