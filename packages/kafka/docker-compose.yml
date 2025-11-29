@@ -62,7 +62,7 @@ services:
       KAFKA_CLUSTERS_0_READONLY: false
       KAFKA_CLUSTERS_0_TOPIC_AUTO_CREATE: true
     ports:
-      - "8085:8080"
+      - "8080:8080"
     depends_on:
       - kafka-broker-1
       - kafka-broker-2

@@ -32,7 +32,7 @@ webhookroute.post("/stripe", async (c) => {
           email: session.customer_details?.email,
           amount: session.amount_total,
           status: session.payment_status === "paid" ? "success" : "failed",
-          product: lineItems.data.map((item) => ({
+          products: lineItems.data.map((item) => ({
             name: item.description,
             quantity: item.quantity,
             price: item.price?.unit_amount,

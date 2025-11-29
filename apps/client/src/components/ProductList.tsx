@@ -1,4 +1,4 @@
-import { ProductsType } from "@repo/types";
+import { ProductsType, ProductType } from "@repo/types";
 import React from "react";
 import Categories from "./Categories";
 import ProductCard from "./ProductCard";
@@ -142,13 +142,42 @@ const products: ProductsType = [
   },
 ];
 
-const ProductList = ({
+const fetchData = async ({
+  category,
+  sort,
+  search,
+  params,
+}: {
+  category?: string;
+  sort?: string;
+  search?: string;
+  params?: "homepage" | "products";
+}) => {
+  const url = `${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/products?${category ? `category=${category}` : ""}${search ? `&search=${search}` : ""}&sort=${sort || "newest"}${params === "homepage" ? `&limit=8` : ""}`;
+  
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
+  }
+
+  const data: ProductsType = await res.json();
+  return data;
+};
+
+const ProductList = async ({
   category,
   params,
+  sort,
+  search,
 }: {
   category: string;
   params: "homepage" | "products";
+  sort?: string;
+  search?: string;
 }) => {
+  const products = await fetchData({ category, sort, search, params });
+
   return (
     <div className="w-full">
       <Categories />

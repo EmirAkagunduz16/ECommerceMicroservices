@@ -3,6 +3,10 @@ import stripe from "../utils/stripe";
 import { shouldBeUser } from "../middleware/authMiddleware";
 import { CartItemsType } from "@repo/types";
 import { getStripeProductPrice } from "../utils/stripeProduct";
+import { producer } from "../utils/kafka";
+
+// Aynı session için birden fazla order oluşturulmasını önlemek için
+const processedSessions = new Set<string>();
 
 const sessionRoute = new Hono();
 
@@ -59,6 +63,33 @@ sessionRoute.get("/:session_id", async (c) => {
   );
 
   console.log(session);
+
+  // Ödeme başarılıysa ve bu session daha önce işlenmediyse order oluştur
+  if (
+    session.status === "complete" &&
+    session.payment_status === "paid" &&
+    !processedSessions.has(session_id)
+  ) {
+    processedSessions.add(session_id);
+
+    const lineItems = session.line_items?.data || [];
+
+    await producer.sendMessage("payment.successful", {
+      value: {
+        userId: session.client_reference_id,
+        email: session.customer_details?.email,
+        amount: session.amount_total,
+        status: "success",
+        products: lineItems.map((item) => ({
+          name: item.description,
+          quantity: item.quantity,
+          price: item.price?.unit_amount,
+        })),
+      },
+    });
+
+    console.log("✅ Order message sent to Kafka for session:", session_id);
+  }
 
   return c.json({
     status: session.status,

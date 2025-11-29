@@ -154,7 +154,9 @@ const CartPage = () => {
                           item.selectedColor.slice(1)}
                       </p>
                     </div>
-                    <p className="font-medium">${item.price.toFixed(2)}</p>
+                    <p className="font-medium">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </p>
                   </div>
                 </div>
                 {/* Delete button */}
@@ -169,7 +171,7 @@ const CartPage = () => {
           ) : activeStep === 2 ? (
             <ShippingForm setShippingForm={setShippingForm} />
           ) : activeStep === 3 && shippingForm ? (
-            <StripePaymentForm shippingForm={shippingForm}/>
+            <StripePaymentForm shippingForm={shippingForm} />
           ) : (
             <p className="text-sm text-gray-500">
               Please fill in the shipping form first

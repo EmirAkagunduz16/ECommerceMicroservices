@@ -13,6 +13,7 @@ export const orderRouter = async (fastify: FastifyInstance) => {
       } catch (error) {}
     }
   );
+
   fastify.get(
     "/orders",
     { preHandler: shouldBeAdmin },

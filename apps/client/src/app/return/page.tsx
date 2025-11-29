@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 
 const ReturnPage = async ({
   searchParams,
@@ -9,12 +8,7 @@ const ReturnPage = async ({
   const session_id = (await searchParams)?.session_id;
 
   if (!session_id) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <h1 className="text-2xl font-medium">Invalid session</h1>
-        <p className="text-sm text-gray-500">Please try again later.</p>
-      </div>
-    );
+    return <div>No session id found!</div>;
   }
 
   const res = await fetch(
@@ -24,9 +18,9 @@ const ReturnPage = async ({
 
   return (
     <div className="">
-      <h1>Payment : {data.status}</h1>
-      <p>Payment Status : {data.payment_status}</p>
-      <Link href={"/orders"}>See your orders</Link>
+      <h1>Payment {data.status}</h1>
+      <p>Payment status: {data.paymentStatus}</p>
+      <Link href="/orders">See your orders</Link>
     </div>
   );
 };
